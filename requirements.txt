@@ -1,0 +1,14 @@
+# ES-DE Multi-Disc M3U Generator
+# No external dependencies required - uses only Python standard library
+
+# Included with Python:
+# - tkinter (GUI)
+# - pathlib (file operations)
+# - threading (background processing)
+# - re (regex pattern matching)
+# - os (operating system interface)
+
+# Build dependencies (for creating .exe)
+pyinstaller>=5.0.0
+
+ 
