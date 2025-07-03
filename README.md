@@ -2,7 +2,7 @@
 
 A simple GUI application that creates ES-DE compatible multi-disc game folders. This tool automatically organizes multi-disc games into the folder structure that EmulationStation-DE expects for proper disc switching support.
 
-![Screenshot: ES-DE Multi-Disc M3U Generator main window](screenshot.png)
+![Screenshot: ES-DE Multi-Disc M3U Generator main window](screenshot.png
 *Main window: Scan, select, and organize your multi-disc games for ES-DE with an easy-to-use interface.*
 
 [![Python](https://img.shields.io/badge/Python-3.4+-blue.svg)](https://www.python.org/)
