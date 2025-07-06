@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2025-07-06
 
 ### Added
-- **Subfolder preservation**: M3U folders are now created in the same subfolder where multidisc games are detected, rather than moving everything to the root ROMs folder
+- **Subfolder preservation**: M3U folders are now created in the same subfolder where multidisc games are detected, rather than moving everything to the selected root folder
 - Enhanced UI display showing which subfolder each multidisc game is located in
 - Improved folder structure handling for better organization
 
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated documentation with new folder structure examples
 
 ### Fixed
-- Resolved issue where all multidisc games were being moved to the root ROMs folder regardless of their original subfolder location
+- Resolved issue where all multidisc games were being moved to the selected root folder regardless of their original subfolder location
 
 ## [1.0.0] - 2025-07-03
 
