@@ -104,7 +104,7 @@ Final Fantasy VII (USA) (Disc 3).chd
    ```bash
    python m3u_generator.py
    ```
-2. Click "Browse" to select your ROMs folder
+2. Click "Browse" to select your games folder
 3. Click "Scan for Multi-Disc Games" to analyze the folder
 4. **Review the found games in the list. Use the checkboxes to select which games to process.**
    - Use "Select All" or "Select None" for quick selection.
@@ -142,7 +142,7 @@ This creates a much cleaner experience compared to having multiple separate entr
 
 ## Example Output
 
-After running the tool on a ROMs folder with multiple subfolders:
+After running the tool on a games folder with multiple subfolders:
 
 ```
 /ROMs/
