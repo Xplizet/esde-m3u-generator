@@ -2,6 +2,9 @@
 
 A modern, user-friendly tool for automatically generating M3U files for multi-disc games, designed for use with ES-DE and similar emulation frontends.
 
+![Screenshot: ES-DE Multi-Disc M3U Generator main window](screenshot.png)
+*Modern PyQt5 interface with dark theme, drag-and-drop support, and flexible multi-disc detection*
+
 ## Features
 - Modern PyQt5 GUI with dark and light theme support
 - Drag-and-drop support for both files and folders
