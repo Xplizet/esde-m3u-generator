@@ -28,13 +28,34 @@ def main():
         if os.path.exists(path):
             shutil.rmtree(path)
     
+    # Extract current version from CHANGELOG.md
+    def get_current_version():
+        try:
+            with open("CHANGELOG.md", "r", encoding="utf-8") as f:
+                content = f.read()
+                # Find all version entries and get the first non-Unreleased one
+                import re
+                version_matches = re.findall(r'## \[([^\]]+)\]', content)
+                for version in version_matches:
+                    if version != "Unreleased":
+                        return version
+                print("❌ Could not find a valid version in CHANGELOG.md")
+                return "v1.1.0"  # Fallback version
+        except FileNotFoundError:
+            print("❌ CHANGELOG.md not found, using fallback version")
+            return "v1.1.0"  # Fallback version
+    
     # Build the executable
     print("Building executable...")
+    version = get_current_version()
+    print(f"✓ Building version: {version}")
+    exe_name = f"ESDE_M3U_Generator_{version}"
+    
     cmd = [
         "pyinstaller",
         "--onefile",                    # Single executable file
         "--windowed",                   # No console window
-        "--name=ESDE_M3U_Generator",    # Executable name
+        f"--name={exe_name}",           # Executable name with version
         "--icon=NONE",                  # No icon for now
         "m3u_generator.py"
     ]
@@ -45,7 +66,7 @@ def main():
         print("✓ Build successful!")
         
         # Check if executable was created
-        exe_path = Path("dist/ESDE_M3U_Generator.exe")
+        exe_path = Path(f"dist/{exe_name}.exe")
         if exe_path.exists():
             size_mb = exe_path.stat().st_size / (1024 * 1024)
             print(f"✓ Executable created: {exe_path}")

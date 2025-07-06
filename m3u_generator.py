@@ -182,8 +182,17 @@ This allows ES-DE to show only one entry per game while supporting disc switchin
                 print(f"DEBUG: Inserting {game_name} with {len(discs)} discs.")
                 var = tk.BooleanVar(value=True)
                 self.game_vars[game_name] = var
-                folder_name = f"{game_name}.m3u"
-                item_id = self.tree.insert("", "end", values=("■", game_name, str(len(discs)), folder_name))
+                
+                # Extract display name and folder name
+                if '/' in game_name:
+                    subfolder_path, base_game_name = game_name.rsplit('/', 1)
+                    display_name = f"{base_game_name} (in {subfolder_path})"
+                    folder_name = f"{subfolder_path}/{base_game_name}.m3u"
+                else:
+                    display_name = game_name
+                    folder_name = f"{game_name}.m3u"
+                
+                item_id = self.tree.insert("", "end", values=("■", display_name, str(len(discs)), folder_name))
                 self.tree_items[item_id] = game_name
             self.tree.update_idletasks()
             # Ensure the first item is visible
@@ -226,9 +235,12 @@ This allows ES-DE to show only one entry per game while supporting disc switchin
                 if match:
                     base_name = match.group(1).strip()
                     extension = match.group(2).strip()
-                    if base_name not in games:
-                        games[base_name] = []
-                    games[base_name].append((filename, file_path))
+                    # Use the subfolder path as part of the key to keep games separate by location
+                    subfolder = file_path.parent.relative_to(Path(folder))
+                    game_key = f"{subfolder}/{base_name}" if str(subfolder) != "." else base_name
+                    if game_key not in games:
+                        games[game_key] = []
+                    games[game_key].append((filename, file_path))
         for game_name in games:
             games[game_name].sort(key=lambda x: self.extract_disc_number(x[0]))
         return games
@@ -252,9 +264,22 @@ This allows ES-DE to show only one entry per game while supporting disc switchin
         created_folders = []
         moved_files = []
         for game_name, discs in selected_games.items():
-            folder_name = f"{game_name}.m3u"
-            game_folder = roms_folder / folder_name
+            # Extract the base game name and subfolder path
+            if '/' in game_name:
+                subfolder_path, base_game_name = game_name.rsplit('/', 1)
+                target_folder = roms_folder / subfolder_path
+                folder_name = f"{base_game_name}.m3u"
+                game_folder = target_folder / folder_name
+            else:
+                # Game is in the root folder
+                base_game_name = game_name
+                target_folder = roms_folder
+                folder_name = f"{base_game_name}.m3u"
+                game_folder = target_folder / folder_name
+            
             try:
+                # Ensure the target folder exists
+                target_folder.mkdir(parents=True, exist_ok=True)
                 game_folder.mkdir(exist_ok=True)
                 disc_filenames = []
                 for disc_filename, disc_path in discs:
@@ -262,12 +287,12 @@ This allows ES-DE to show only one entry per game while supporting disc switchin
                     disc_path.rename(new_disc_path)
                     disc_filenames.append(disc_filename)
                     moved_files.append(disc_filename)
-                m3u_filename = f"{game_name}.m3u"
+                m3u_filename = f"{base_game_name}.m3u"
                 m3u_path = game_folder / m3u_filename
                 with open(m3u_path, 'w', encoding='utf-8') as f:
                     for disc_filename in disc_filenames:
                         f.write(f"{disc_filename}\n")
-                created_folders.append(folder_name)
+                created_folders.append(f"{subfolder_path}/{folder_name}" if '/' in game_name else folder_name)
             except Exception as e:
                 messagebox.showerror("Error", f"Error processing {game_name}: {str(e)}")
                 return

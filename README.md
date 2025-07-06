@@ -20,26 +20,48 @@ A simple GUI application that creates ES-DE compatible multi-disc game folders. 
 
 ## What It Does
 
-This tool creates the exact folder structure that ES-DE needs for multi-disc games:
+This tool creates the exact folder structure that ES-DE needs for multi-disc games. **It preserves the original subfolder structure** - M3U folders are created in the same subfolder where the multidisc games are detected.
 
 **Before:**
 ```
-/ROMs/psx/
-├── Final Fantasy VII (USA) (Disc 1).chd
-├── Final Fantasy VII (USA) (Disc 2).chd
-├── Final Fantasy VII (USA) (Disc 3).chd
-└── Single Game (USA).chd
+/ROMs/
+├── psx/
+│   ├── Final Fantasy VII (USA) (Disc 1).chd
+│   ├── Final Fantasy VII (USA) (Disc 2).chd
+│   ├── Final Fantasy VII (USA) (Disc 3).chd
+│   └── Single Game (USA).chd
+├── psn/
+│   ├── Metal Gear Solid (USA) (Disc 1).iso
+│   ├── Metal Gear Solid (USA) (Disc 2).iso
+│   └── Another Game (USA).iso
+└── dreamcast/
+    ├── Shenmue (USA) (Disc 1).gdi
+    ├── Shenmue (USA) (Disc 2).gdi
+    └── Single Game (USA).gdi
 ```
 
 **After:**
 ```
-/ROMs/psx/
-├── Final Fantasy VII (USA).m3u/
-│   ├── Final Fantasy VII (USA).m3u
-│   ├── Final Fantasy VII (USA) (Disc 1).chd
-│   ├── Final Fantasy VII (USA) (Disc 2).chd
-│   └── Final Fantasy VII (USA) (Disc 3).chd
-└── Single Game (USA).chd
+/ROMs/
+├── psx/
+│   ├── Final Fantasy VII (USA).m3u/
+│   │   ├── Final Fantasy VII (USA).m3u
+│   │   ├── Final Fantasy VII (USA) (Disc 1).chd
+│   │   ├── Final Fantasy VII (USA) (Disc 2).chd
+│   │   └── Final Fantasy VII (USA) (Disc 3).chd
+│   └── Single Game (USA).chd
+├── psn/
+│   ├── Metal Gear Solid (USA).m3u/
+│   │   ├── Metal Gear Solid (USA).m3u
+│   │   ├── Metal Gear Solid (USA) (Disc 1).iso
+│   │   └── Metal Gear Solid (USA) (Disc 2).iso
+│   └── Another Game (USA).iso
+└── dreamcast/
+    ├── Shenmue (USA).m3u/
+    │   ├── Shenmue (USA).m3u
+    │   ├── Shenmue (USA) (Disc 1).gdi
+    │   └── Shenmue (USA) (Disc 2).gdi
+    └── Single Game (USA).gdi
 ```
 
 The M3U file contains:
@@ -65,7 +87,7 @@ Final Fantasy VII (USA) (Disc 3).chd
 ## Installation
 
 ### Option 1: Standalone Executable (Recommended for non-technical users)
-1. Download `ESDE_M3U_Generator.exe` from the [Releases](https://github.com/Xplizet/esde-m3u-generator/releases) page
+1. Download `ESDE_M3U_Generator_v1.1.0.exe` from the [Releases](https://github.com/Xplizet/esde-m3u-generator/releases) page
 2. No installation required - just double-click to run!
 
 ### Option 2: Python Script
@@ -75,7 +97,7 @@ Final Fantasy VII (USA) (Disc 3).chd
 ## Usage
 
 ### Using the Executable:
-1. Double-click `ESDE_M3U_Generator.exe` to launch
+1. Double-click `ESDE_M3U_Generator_v1.1.0.exe` to launch
 
 ### Using the Python Script:
 1. Run the application:
@@ -120,20 +142,33 @@ This creates a much cleaner experience compared to having multiple separate entr
 
 ## Example Output
 
-After running the tool on a PlayStation ROMs folder:
+After running the tool on a ROMs folder with multiple subfolders:
 
 ```
-/ROMs/psx/
-├── Chrono Cross (USA).m3u/
-│   ├── Chrono Cross (USA).m3u
-│   ├── Chrono Cross (USA) (Disc 1).chd
-│   └── Chrono Cross (USA) (Disc 2).chd
-├── Final Fantasy VII (USA).m3u/
-│   ├── Final Fantasy VII (USA).m3u
-│   ├── Final Fantasy VII (USA) (Disc 1).chd
-│   ├── Final Fantasy VII (USA) (Disc 2).chd
-│   └── Final Fantasy VII (USA) (Disc 3).chd
-└── Single Game (USA).chd
+/ROMs/
+├── psx/
+│   ├── Chrono Cross (USA).m3u/
+│   │   ├── Chrono Cross (USA).m3u
+│   │   ├── Chrono Cross (USA) (Disc 1).chd
+│   │   └── Chrono Cross (USA) (Disc 2).chd
+│   ├── Final Fantasy VII (USA).m3u/
+│   │   ├── Final Fantasy VII (USA).m3u
+│   │   ├── Final Fantasy VII (USA) (Disc 1).chd
+│   │   ├── Final Fantasy VII (USA) (Disc 2).chd
+│   │   └── Final Fantasy VII (USA) (Disc 3).chd
+│   └── Single Game (USA).chd
+├── psn/
+│   ├── Metal Gear Solid (USA).m3u/
+│   │   ├── Metal Gear Solid (USA).m3u
+│   │   ├── Metal Gear Solid (USA) (Disc 1).iso
+│   │   └── Metal Gear Solid (USA) (Disc 2).iso
+│   └── Another Game (USA).iso
+└── dreamcast/
+    ├── Shenmue (USA).m3u/
+    │   ├── Shenmue (USA).m3u
+    │   ├── Shenmue (USA) (Disc 1).gdi
+    │   └── Shenmue (USA) (Disc 2).gdi
+    └── Single Game (USA).gdi
 ```
 
 ## Building the Executable
@@ -152,7 +187,7 @@ If you want to build your own standalone .exe:
    ```bash
    build_exe.bat
    ```
-3. The executable will be created in the `dist/` folder as `ESDE_M3U_Generator.exe`
+3. The executable will be created in the `dist/` folder as `ESDE_M3U_Generator_v1.1.0.exe`
 
 ## Notes
 
