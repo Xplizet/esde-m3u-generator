@@ -11,4 +11,7 @@
 # Build dependencies (for creating .exe)
 pyinstaller>=5.0.0
 
+# PyQt5 for modern GUI
+PyQt5>=5.15.0
+
  

@@ -5,7 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2024-06-09
+### Added
+- Brand new PyQt5-based GUI with modern dark and light themes
+- Drag-and-drop support for both files and folders
+- Flexible multi-disc detection supporting a wide range of naming patterns (Disc, CD, Disk, Diskette, with/without spaces, parentheses, brackets, hyphens, underscores, region tags, etc.)
+- Professional interface with styled status bar, scrollbars, and resizable columns
+
+### Changed
+- Improved error handling and user feedback
+- Faster, more robust background scanning
+- Updated documentation and release notes
+
+### Removed
+- All test/demo UI and legacy code
+
+### Fixed
+- Issues with horizontal scroll bars and column resizing
+- Grouping and detection for all common and tricky multi-disc naming conventions
+
 ## [Unreleased]
+
+### Added
+- New PyQt5-based GUI: `m3u_generator.py` with modern dark and light theme support
+- Theme switcher in the menu (View → Theme)
+- Professional dark theme styling for all widgets, headers, and scroll bars
+- Horizontal and vertical scroll bars for the multi-disc games list, styled for both themes
+- Interactive column resizing for long game and folder names
+- **Flexible multi-disc detection:** Now supports a wide range of disc naming patterns, including `Disc`, `CD`, `Disk`, `Diskette`, with or without parentheses, brackets, spaces, hyphens, underscores, etc. (e.g., `Game Disc1`, `Game (CD 2)`, `Game-disk3`, `Game_cd4`, `Game[Diskette5]`)
+
+### Changed
+- Replaced tkinter interface with PyQt5 for a more modern, responsive, and visually appealing UI
+- Improved column width handling: "Selected" column is now wide enough for the full title
+- "Game Name" and "Folder Name" columns are now resizable and support horizontal scrolling
+- Status bar and progress bar now use PyQt5 widgets and styling
+- Grouped sections for better organization (folder selection, results, etc.)
+- Updated requirements.txt to include PyQt5
+- **Improved grouping logic:** Discs with different keywords (disc, cd, disk, etc.) and separators are now grouped as the same game if the base name matches
+
+### Fixed
+- Fixed issue where horizontal scroll bar would not appear for long game or folder names
+- Fixed style/layout issues caused by forced widget widths
+- Fixed header visibility and readability in dark theme
+- Fixed checkboxes and selection logic for the new tree widget
 
 ## [1.1.0] - 2025-07-06
 
