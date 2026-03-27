@@ -12,16 +12,27 @@ A modern, user-friendly tool for automatically generating M3U files for multi-di
 - Flexible multi-disc detection (Disc, CD, Disk, Diskette, with/without spaces, parentheses, brackets, hyphens, underscores, region tags, etc.)
 - Clean, professional interface with styled status bar, scrollbars, and resizable columns
 - Fast, robust background scanning
+- Cross-platform support (Windows, Linux, macOS)
 
 ## Installation
-- Download the latest release from the [Releases](https://github.com/Xplizet/esde-m3u-generator/releases) page
-  - `ESDE_M3U_Generator_<version>.exe` — GUI version (desktop use)
-  - `ESDE_M3U_Generator_CLI_<version>.exe` — CLI version (SSH / headless systems)
-- Or run from source with Python 3.7+ and PyQt5:
-  ```sh
-  pip install -r requirements.txt
-  python m3u_generator.py
-  ```
+
+### Windows
+Download the latest release from the [Releases](https://github.com/Xplizet/esde-m3u-generator/releases) page:
+- `ESDE_M3U_Generator_<version>.exe` — GUI version (desktop use)
+- `ESDE_M3U_Generator_CLI_<version>.exe` — CLI version (SSH / headless systems)
+
+No Python installation required.
+
+### Linux / macOS
+Run from source with Python 3.7+:
+```sh
+# GUI (requires PyQt5)
+pip install -r requirements.txt
+python m3u_generator.py
+
+# CLI only (no dependencies beyond Python standard library)
+python m3u_generator_cli.py /path/to/roms
+```
 
 ## Usage
 

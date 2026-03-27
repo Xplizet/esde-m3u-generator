@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CLI mode for headless/SSH usage — standalone executable with no PyQt5 dependency
 - Build script now produces both GUI and CLI executables
 
+### Fixed
+- Fixed cross-device file move error (`[WinError 17]`) when running under Wine on Linux (#2)
+
 ## [2.0.1] - 2026-03-27
 ### Fixed
 - Fixed multi-disc detection truncating game names with parenthesized region tags (e.g., "Final Fantasy VII (USA) (Disc 1).chd" was incorrectly parsed as "Final Fantasy VII (USA")

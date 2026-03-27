@@ -7,6 +7,7 @@ Standalone script with no PyQt5 dependency.
 import sys
 import os
 import re
+import shutil
 import argparse
 from pathlib import Path
 
@@ -68,7 +69,7 @@ def generate(folder, games):
 
         for disc_filename, disc_path in discs:
             new_disc_path = game_folder / disc_filename
-            disc_path.rename(new_disc_path)
+            shutil.move(str(disc_path), str(new_disc_path))
             moved_count += 1
 
         m3u_path = game_folder / folder_name

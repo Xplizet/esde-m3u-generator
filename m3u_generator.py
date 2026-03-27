@@ -1,6 +1,7 @@
 import sys
 import os
 import re
+import shutil
 import threading
 from pathlib import Path
 from PyQt5.QtWidgets import (
@@ -468,7 +469,7 @@ class GenerateWorker(QThread):
                     disc_filenames = []
                     for disc_filename, disc_path in discs:
                         new_disc_path = game_folder / disc_filename
-                        disc_path.rename(new_disc_path)
+                        shutil.move(str(disc_path), str(new_disc_path))
                         disc_filenames.append(disc_filename)
                         moved_files.append(disc_filename)
                     
@@ -877,7 +878,7 @@ def run_cli(folder_path, yes=False):
 
         for disc_filename, disc_path in discs:
             new_disc_path = game_folder / disc_filename
-            disc_path.rename(new_disc_path)
+            shutil.move(str(disc_path), str(new_disc_path))
             moved_count += 1
 
         m3u_path = game_folder / folder_name
