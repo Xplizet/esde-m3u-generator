@@ -824,14 +824,94 @@ This allows ES-DE to show only one entry per game while supporting disc switchin
             self.status_bar.showMessage(f"Dropped {len(paths)} file(s) - Scanning...")
             self.scan_games(file_paths=paths)
 
+def run_cli(folder_path, yes=False):
+    """Run the M3U generator in CLI mode."""
+    folder = os.path.abspath(folder_path)
+    if not os.path.isdir(folder):
+        print(f"Error: '{folder}' is not a valid directory.")
+        sys.exit(1)
+
+    print(f"Scanning '{folder}' for multi-disc games...")
+    scanner = ScanWorker(folder)
+    games = scanner.find_multidisc_games(folder)
+
+    if not games:
+        print("No multi-disc games found.")
+        sys.exit(0)
+
+    print(f"\nFound {len(games)} multi-disc game(s):\n")
+    for i, (name, discs) in enumerate(sorted(games.items()), 1):
+        print(f"  {i}. {name} ({len(discs)} discs)")
+        for disc_filename, _ in discs:
+            print(f"       - {disc_filename}")
+
+    print(f"\nThis will create {len(games)} .m3u folder(s) and move disc files into them.")
+
+    if not yes:
+        try:
+            answer = input("\nProceed? [y/N] ").strip().lower()
+        except (EOFError, KeyboardInterrupt):
+            print("\nAborted.")
+            sys.exit(0)
+        if answer not in ('y', 'yes'):
+            print("Aborted.")
+            sys.exit(0)
+
+    print()
+    selected = set(games.keys())
+    created_folders = []
+    moved_count = 0
+
+    for game_name in selected:
+        discs = games[game_name]
+        if '/' in game_name:
+            subfolder_path, base_game_name = game_name.rsplit('/', 1)
+            target_folder = Path(folder) / subfolder_path
+        else:
+            base_game_name = game_name
+            target_folder = Path(folder)
+
+        folder_name = f"{base_game_name}.m3u"
+        game_folder = target_folder / folder_name
+        game_folder.mkdir(parents=True, exist_ok=True)
+
+        for disc_filename, disc_path in discs:
+            new_disc_path = game_folder / disc_filename
+            disc_path.rename(new_disc_path)
+            moved_count += 1
+
+        m3u_path = game_folder / folder_name
+        with open(m3u_path, 'w', encoding='utf-8') as f:
+            for disc_filename, _ in discs:
+                f.write(f"{disc_filename}\n")
+
+        rel_name = f"{subfolder_path}/{folder_name}" if '/' in game_name else folder_name
+        created_folders.append(rel_name)
+        print(f"  Created: {rel_name}")
+
+    print(f"\nDone! Created {len(created_folders)} folder(s), moved {moved_count} file(s).")
+
+
 def main():
-    app = QApplication(sys.argv)
-    app.setApplicationName("ES-DE Multi-Disc M3U Generator")
-    
-    window = ESDE_M3UGenerator()
-    window.show()
-    
-    sys.exit(app.exec_())
+    if len(sys.argv) > 1 and not sys.argv[1].startswith('-psn'):
+        import argparse
+        parser = argparse.ArgumentParser(
+            prog="m3u_generator",
+            description="ES-DE Multi-Disc M3U Generator - create .m3u folders for multi-disc games"
+        )
+        parser.add_argument("folder", help="Path to the games/ROMs folder to scan")
+        parser.add_argument("-y", "--yes", action="store_true", help="Skip confirmation prompt")
+        args = parser.parse_args()
+        run_cli(args.folder, yes=args.yes)
+    else:
+        app = QApplication(sys.argv)
+        app.setApplicationName("ES-DE Multi-Disc M3U Generator")
+
+        window = ESDE_M3UGenerator()
+        window.show()
+
+        sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
-    main() 
+    main()

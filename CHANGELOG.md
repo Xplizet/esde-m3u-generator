@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2026-03-27
+### Added
+- CLI mode for headless/SSH usage — standalone executable with no PyQt5 dependency
+- Build script now produces both GUI and CLI executables
+
 ## [2.0.1] - 2026-03-27
 ### Fixed
 - Fixed multi-disc detection truncating game names with parenthesized region tags (e.g., "Final Fantasy VII (USA) (Disc 1).chd" was incorrectly parsed as "Final Fantasy VII (USA")

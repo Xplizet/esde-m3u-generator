@@ -33,4 +33,7 @@ desktop.ini
 *.log
 
 # Test files
-test_games/ 
+test_games/
+
+# Release notes (used locally, not uploaded)
+RELEASE_*.md 

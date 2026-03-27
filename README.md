@@ -7,6 +7,7 @@ A modern, user-friendly tool for automatically generating M3U files for multi-di
 
 ## Features
 - Modern PyQt5 GUI with dark and light theme support
+- CLI mode for headless/SSH usage
 - Drag-and-drop support for both files and folders
 - Flexible multi-disc detection (Disc, CD, Disk, Diskette, with/without spaces, parentheses, brackets, hyphens, underscores, region tags, etc.)
 - Clean, professional interface with styled status bar, scrollbars, and resizable columns
@@ -14,6 +15,8 @@ A modern, user-friendly tool for automatically generating M3U files for multi-di
 
 ## Installation
 - Download the latest release from the [Releases](https://github.com/Xplizet/esde-m3u-generator/releases) page
+  - `ESDE_M3U_Generator_<version>.exe` — GUI version (desktop use)
+  - `ESDE_M3U_Generator_CLI_<version>.exe` — CLI version (SSH / headless systems)
 - Or run from source with Python 3.7+ and PyQt5:
   ```sh
   pip install -r requirements.txt
@@ -21,10 +24,28 @@ A modern, user-friendly tool for automatically generating M3U files for multi-di
   ```
 
 ## Usage
-1. Launch the app.
+
+### GUI
+1. Launch the app (double-click the exe or run `python m3u_generator.py` with no arguments).
 2. Drag and drop your game folders or files onto the window, or use the menu to select a folder.
 3. The app will scan for multi-disc games and generate M3U files in the correct subfolders.
 4. Toggle between dark and light themes from the menu.
+
+### CLI (for SSH / headless systems)
+Using the standalone CLI executable (no Python required):
+```sh
+ESDE_M3U_Generator_CLI.exe /path/to/roms        # scan, review, confirm
+ESDE_M3U_Generator_CLI.exe /path/to/roms -y     # skip confirmation prompt
+ESDE_M3U_Generator_CLI.exe --help               # show usage
+```
+
+Or from source (no PyQt5 required):
+```sh
+python m3u_generator_cli.py /path/to/roms
+python m3u_generator_cli.py /path/to/roms -y
+```
+
+The CLI uses the same detection and generation logic as the GUI. It lists all detected multi-disc games and asks for confirmation before creating folders and moving files.
 
 ### Example Folder Structure
 ```
@@ -42,9 +63,6 @@ After scanning, M3U files will be created in the same folders as the detected ga
 
 ## Changelog
 See [CHANGELOG.md](CHANGELOG.md) for a full list of changes.
-
-## Release Notes
-See [RELEASE_v2.0.0.md](RELEASE_v2.0.0.md) for highlights of the latest version.
 
 ## License
 MIT
