@@ -369,17 +369,17 @@ class ScanWorker(QThread):
         games = {}
         disc_pattern = re.compile(
             r'(?i)(?P<basename>.*?)'  # Everything before the disc pattern (non-greedy)
-            r'[\s\-_()\[\]]*'
+            r'[\s\-_]*[\(\[]*'
             r'(disc|cd|disk|diskette)[\s\-_]*'
             r'(?P<discnum>\d+)'
-            r'[\s\-_()\[\]]*'
+            r'[\s\-_]*[\)\]]*'
             r'(?:[^\w\d]|$)'
         )
         for file_path in file_paths:
             filename = os.path.basename(file_path)
             match = disc_pattern.search(filename)
             if match:
-                base_name = match.group('basename').strip(' -_()[]')
+                base_name = match.group('basename').strip(' -_')
                 if not base_name:
                     base_name = filename
                 if base_name not in games:
@@ -400,10 +400,10 @@ class ScanWorker(QThread):
         # Improved pattern: supports disc pattern anywhere in the filename, with region tags or other info after
         disc_pattern = re.compile(
             r'(?i)(?P<basename>.*?)'  # Everything before the disc pattern (non-greedy)
-            r'[\s\-_()\[\]]*'
+            r'[\s\-_]*[\(\[]*'
             r'(disc|cd|disk|diskette)[\s\-_]*'
             r'(?P<discnum>\d+)'
-            r'[\s\-_()\[\]]*'
+            r'[\s\-_]*[\)\]]*'
             r'(?:[^\w\d]|$)'
         )
         for file_path in Path(folder).rglob('*'):
@@ -411,12 +411,18 @@ class ScanWorker(QThread):
                 filename = file_path.name
                 match = disc_pattern.search(filename)
                 if match:
-                    base_name = match.group('basename').strip(' -_()[]')
+                    base_name = match.group('basename').strip(' -_')
                     if not base_name:
                         base_name = filename  # fallback
-                    if base_name not in games:
-                        games[base_name] = []
-                    games[base_name].append((filename, file_path))
+                    # Include relative subfolder path in key to preserve folder structure
+                    rel_parent = file_path.parent.relative_to(folder)
+                    if str(rel_parent) != '.':
+                        game_key = f"{rel_parent.as_posix()}/{base_name}"
+                    else:
+                        game_key = base_name
+                    if game_key not in games:
+                        games[game_key] = []
+                    games[game_key].append((filename, file_path))
         for game_name in games:
             games[game_name].sort(key=lambda x: self.extract_disc_number(x[0]))
         return games
