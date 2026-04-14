@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ES-DE Multi-Disc M3U Generator — CLI version
+ES-DE Multi-Disc M3U Generator (CLI version)
 Standalone script with no PyQt5 dependency.
 """
 

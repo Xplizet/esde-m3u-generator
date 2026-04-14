@@ -18,8 +18,8 @@ A modern, user-friendly tool for automatically generating M3U files for multi-di
 
 ### Windows
 Download the latest release from the [Releases](https://github.com/Xplizet/esde-m3u-generator/releases) page:
-- `ESDE_M3U_Generator_<version>.exe` — GUI version (desktop use)
-- `ESDE_M3U_Generator_CLI_<version>.exe` — CLI version (SSH / headless systems)
+- `ESDE_M3U_Generator_<version>.exe`: GUI version (desktop use)
+- `ESDE_M3U_Generator_CLI_<version>.exe`: CLI version (SSH / headless systems)
 
 No Python installation required.
 

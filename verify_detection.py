@@ -28,7 +28,7 @@ import m3u_generator_cli
 # Each scenario lives in its own subfolder for isolated folder-scan testing.
 # Base names are unique across scenarios so file-list mode doesn't collide.
 SCENARIOS = [
-    # ===== SHOULD DETECT — keyword path (regression checks) =====
+    # ===== SHOULD DETECT: keyword path (regression checks) =====
     {
         "subfolder": "FF7",
         "files": [
@@ -98,7 +98,7 @@ SCENARIOS = [
         "files": ["Riven CD 1.chd", "Riven CD 2.chd"],
         "expected": {"Riven": ["Riven CD 1.chd", "Riven CD 2.chd"]},
     },
-    # ===== SHOULD DETECT — new bare (N) pattern =====
+    # ===== SHOULD DETECT: new bare (N) pattern =====
     {
         "subfolder": "Castlevania",
         "files": [
@@ -136,7 +136,7 @@ SCENARIOS = [
             ]
         },
     },
-    # Bare (N) discs added in non-sorted order — verify extract_disc_number works
+    # Bare (N) discs added in non-sorted order, verify extract_disc_number works
     {
         "subfolder": "WildGame",
         "files": [
@@ -152,7 +152,7 @@ SCENARIOS = [
             ]
         },
     },
-    # ===== SHOULD NOT DETECT — false positives that must be rejected =====
+    # ===== SHOULD NOT DETECT: false positives that must be rejected =====
     {
         "subfolder": "LoneBare",
         "files": ["Lone Game (USA) (1).chd"],  # only 1 file → not multi-disc
@@ -224,7 +224,7 @@ SCENARIOS = [
         ],
         "expected": {},
     },
-    # ===== Edge case: mixed — two USA bare discs detect, lone Japan bare doesn't =====
+    # ===== Edge case (mixed): two USA bare discs detect, lone Japan bare doesn't =====
     {
         "subfolder": "MegaManMixed",
         "files": [
@@ -251,7 +251,7 @@ def make_test_tree(root: Path):
 
 
 def test_folder_scan(root: Path):
-    """find_multidisc_games keys by subfolder/basename — strict equality test."""
+    """find_multidisc_games keys by subfolder/basename, strict equality test."""
     worker = ScanWorker(folder_path=str(root))
     games = worker.find_multidisc_games(str(root))
 
@@ -283,7 +283,7 @@ def test_folder_scan(root: Path):
 
 
 def test_cli_scan(root: Path):
-    """m3u_generator_cli.find_multidisc_games — keys by subfolder/basename."""
+    """m3u_generator_cli.find_multidisc_games, keys by subfolder/basename."""
     games = m3u_generator_cli.find_multidisc_games(str(root))
 
     failures = []
@@ -365,7 +365,7 @@ def main():
             for f in folder_failures:
                 print(f"  - {f}")
         else:
-            print(f"PASS — {len(folder_games)} expected group(s) detected, no false positives")
+            print(f"PASS: {len(folder_games)} expected group(s) detected, no false positives")
 
         print()
         print("=" * 72)
@@ -377,7 +377,7 @@ def main():
             for f in file_failures:
                 print(f"  - {f}")
         else:
-            print(f"PASS — {len(file_games)} expected group(s) detected, no false positives")
+            print(f"PASS: {len(file_games)} expected group(s) detected, no false positives")
 
         print()
         print("=" * 72)
@@ -389,7 +389,7 @@ def main():
             for f in cli_failures:
                 print(f"  - {f}")
         else:
-            print(f"PASS — {len(cli_games)} expected group(s) detected, no false positives")
+            print(f"PASS: {len(cli_games)} expected group(s) detected, no false positives")
 
         print()
         total_failures = len(folder_failures) + len(file_failures) + len(cli_failures)

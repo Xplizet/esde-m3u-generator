@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.2] - 2026-03-27
 ### Added
-- CLI mode for headless/SSH usage — standalone executable with no PyQt5 dependency
+- CLI mode for headless/SSH usage (standalone executable, no PyQt5 dependency)
 - Build script now produces both GUI and CLI executables
 
 ### Fixed
