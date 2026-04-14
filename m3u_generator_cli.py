@@ -19,17 +19,27 @@ DISC_PATTERN = re.compile(
     r'[\s\-_]*[\)\]]*'
     r'(?:[^\w\d]|$)'
 )
+# Bare (N) at end of filename, e.g. "Game (USA) (1).chd". Parens must enclose
+# digits only, max 2 digits to exclude years like (1996). Promoted only if 2+
+# siblings share the same base name + subfolder.
+BARE_PATTERN = re.compile(
+    r'^(?P<basename>.+?)[\s\-_]*\((?P<discnum>\d{1,2})\)\s*(?:\.\w+)?$'
+)
 
 
 def extract_disc_number(filename):
     match = re.search(r'(?i)(disc|cd|disk|diskette)[\s\-_]*([0-9]+)', filename)
     if match:
         return int(match.group(2))
+    match = re.search(r'\((\d{1,2})\)\s*(?:\.\w+)?$', filename)
+    if match:
+        return int(match.group(1))
     return 0
 
 
 def find_multidisc_games(folder):
     games = {}
+    candidates = {}
     for file_path in Path(folder).rglob('*'):
         if file_path.is_file():
             filename = file_path.name
@@ -46,6 +56,25 @@ def find_multidisc_games(folder):
                 if game_key not in games:
                     games[game_key] = []
                 games[game_key].append((filename, file_path))
+                continue
+            bare_match = BARE_PATTERN.search(filename)
+            if bare_match:
+                base_name = bare_match.group('basename').strip(' -_')
+                if not base_name:
+                    continue
+                rel_parent = file_path.parent.relative_to(folder)
+                if str(rel_parent) != '.':
+                    game_key = f"{rel_parent.as_posix()}/{base_name}"
+                else:
+                    game_key = base_name
+                if game_key not in candidates:
+                    candidates[game_key] = []
+                candidates[game_key].append((filename, file_path))
+    for game_key, items in candidates.items():
+        if len(items) >= 2:
+            if game_key not in games:
+                games[game_key] = []
+            games[game_key].extend(items)
     for game_name in games:
         games[game_name].sort(key=lambda x: extract_disc_number(x[0]))
     return games

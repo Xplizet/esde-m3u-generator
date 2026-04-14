@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2026-04-14
+### Added
+- Multi-disc detection now recognizes bare-numbered filenames like `Game (USA) (1).chd`, `Game (USA) (2).chd`, etc. (#4)
+- Verification script (`verify_detection.py`) covering both keyword and bare-number patterns plus common false-positive cases
+
+### Fixed
+- Files using bare `(N)` numbering are now grouped and processed correctly. Detection requires 2+ sibling files sharing the same base name, so single-file disambiguators (`Game (Rev 1).chd`, `Game (1996).chd`, lone `Game (1).chd`) are not misidentified as multi-disc games.
+
 ## [2.0.2] - 2026-03-27
 ### Added
 - CLI mode for headless/SSH usage — standalone executable with no PyQt5 dependency
